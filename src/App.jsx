@@ -48,6 +48,18 @@ function direction(guess, answer) {
   return answer > guess ? "↑" : "↓";
 }
 
+function rankDirection(guess, answer) {
+  if (guess == null || answer == null || guess === answer) {
+    return direction(guess, answer);
+  }
+  return answer < guess ? "↑" : "↓";
+}
+
+function ageDirection(guess, answer) {
+  if (guess === answer) return "";
+  return guess > answer ? "↑" : "↓";
+}
+
 function resultFor(type, guess, target) {
   if (type === "country") return guess.country === target.country ? "correct" : "miss";
   if (type === "division") {
@@ -67,8 +79,8 @@ function GuessCard({ fighter, target, isWinner }) {
   const cells = [
     { key: "division", label: fighter.division, arrow: direction(divisions.indexOf(fighter.division), divisions.indexOf(target.division)) },
     { key: "country", label: fighter.country, iso: fighter.iso },
-    { key: "rank", label: rankLabel(fighter.rank), arrow: direction(fighter.rank, target.rank) },
-    { key: "age", label: fighter.age, arrow: direction(fighter.age, target.age) },
+    { key: "rank", label: rankLabel(fighter.rank), arrow: rankDirection(fighter.rank, target.rank) },
+    { key: "age", label: fighter.age, arrow: ageDirection(fighter.age, target.age) },
     { key: "height", label: heightLabel(fighter.height), arrow: direction(fighter.height, target.height) },
   ];
 
