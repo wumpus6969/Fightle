@@ -40,6 +40,7 @@ const fighters = [
 const heightLabel = (inches) => `${Math.floor(inches / 12)}'${inches % 12}"`;
 const rankLabel = (rank) => (rank == null ? "NR" : `#${rank}`);
 
+// Numeric arrows point from the guessed value toward the answer.
 function direction(guess, answer) {
   if (guess == null && answer == null) return "";
   if (guess == null) return "↑";
@@ -48,16 +49,12 @@ function direction(guess, answer) {
   return answer > guess ? "↑" : "↓";
 }
 
+// Ranking is inverse-numeric: #1 is higher than #2, #3, and so on.
 function rankDirection(guess, answer) {
   if (guess == null || answer == null || guess === answer) {
     return direction(guess, answer);
   }
   return answer < guess ? "↑" : "↓";
-}
-
-function ageDirection(guess, answer) {
-  if (guess === answer) return "";
-  return guess > answer ? "↑" : "↓";
 }
 
 function resultFor(type, guess, target) {
@@ -80,7 +77,7 @@ function GuessCard({ fighter, target, isWinner }) {
     { key: "division", label: fighter.division, arrow: direction(divisions.indexOf(fighter.division), divisions.indexOf(target.division)) },
     { key: "country", label: fighter.country, iso: fighter.iso },
     { key: "rank", label: rankLabel(fighter.rank), arrow: rankDirection(fighter.rank, target.rank) },
-    { key: "age", label: fighter.age, arrow: ageDirection(fighter.age, target.age) },
+    { key: "age", label: fighter.age, arrow: direction(fighter.age, target.age) },
     { key: "height", label: heightLabel(fighter.height), arrow: direction(fighter.height, target.height) },
   ];
 
