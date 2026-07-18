@@ -35,7 +35,13 @@ const assetUrl = (path) => `${import.meta.env.BASE_URL}${path}`;
 
 const heightLabel = (inches) => `${Math.floor(inches / 12)}'${inches % 12}"`;
 const rankLabel = (rank) => (rank == null ? "NR" : rank === 0 ? "C" : `#${rank}`);
-const divisionLabel = (division) => (division.startsWith("W") ? `W-${division.slice(1)}` : division);
+const womenDivisionLabels = {
+  WSW: "W-SW",
+  WFLW: "W-FLW",
+  WBW: "W-BW",
+  WFW: "W-FW",
+};
+const divisionLabel = (division) => womenDivisionLabels[division] || division;
 const rankedFighterIndexes = fighters
   .map((fighter, index) => ({ fighter, index }))
   .filter(({ fighter }) => fighter.rank != null && fighter.rank <= 15)
