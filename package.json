@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "update-roster": "node scripts/update-roster.mjs"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
@@ -16,6 +17,9 @@
     "vite": "6.4.2"
   },
   "devDependencies": {
+    "cheerio": "^1.2.0",
+    "flag-icons": "^7.5.0",
+    "i18n-iso-countries": "^7.14.0",
     "playwright-core": "^1.61.1"
   }
 }

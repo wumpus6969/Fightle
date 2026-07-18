@@ -12,33 +12,42 @@ import {
   Trophy,
   X,
 } from "@phosphor-icons/react";
+import fighters from "./data/fighters.json";
 
-const divisions = ["FLW", "BW", "FW", "LW", "WW", "MW", "LHW", "HW"];
+const divisionMeta = {
+  SW: { track: "men", order: 0 },
+  FLW: { track: "men", order: 1 },
+  BW: { track: "men", order: 2 },
+  FW: { track: "men", order: 3 },
+  LW: { track: "men", order: 4 },
+  WW: { track: "men", order: 5 },
+  MW: { track: "men", order: 6 },
+  LHW: { track: "men", order: 7 },
+  HW: { track: "men", order: 8 },
+  WSW: { track: "women", order: 0 },
+  WFLW: { track: "women", order: 1 },
+  WBW: { track: "women", order: 2 },
+  WFW: { track: "women", order: 3 },
+};
 const assetUrl = (path) => `${import.meta.env.BASE_URL}${path}`;
 
-const fighters = [
-  { name: "Charles Oliveira", division: "LW", country: "Brazil", iso: "br", rank: 3, age: 36, height: 70 },
-  { name: "Cory Sandhagen", division: "BW", country: "United States", iso: "us", rank: 5, age: 34, height: 71 },
-  { name: "Johnny Walker", division: "LHW", country: "Brazil", iso: "br", rank: 15, age: 34, height: 78 },
-  { name: "Dan Hooker", division: "LW", country: "New Zealand", iso: "nz", rank: 6, age: 36, height: 72 },
-  { name: "Michael Chandler", division: "LW", country: "United States", iso: "us", rank: null, age: 40, height: 68 },
-  { name: "Jiri Prochazka", division: "LHW", country: "Czechia", iso: "cz", rank: 2, age: 33, height: 75 },
-  { name: "Israel Adesanya", division: "MW", country: "Nigeria", iso: "ng", rank: 8, age: 36, height: 76 },
-  { name: "Bo Nickal", division: "MW", country: "United States", iso: "us", rank: 13, age: 30, height: 73 },
-  { name: "Edmen Shahbazyan", division: "MW", country: "United States", iso: "us", rank: null, age: 28, height: 74 },
-  { name: "Carlos Ulberg", division: "LHW", country: "New Zealand", iso: "nz", rank: 1, age: 35, height: 76 },
-  { name: "Nicolas Dalby", division: "WW", country: "Denmark", iso: "dk", rank: null, age: 41, height: 71 },
-  { name: "Muslim Salikhov", division: "WW", country: "Russia", iso: "ru", rank: null, age: 41, height: 71 },
-  { name: "Jake Matthews", division: "WW", country: "Australia", iso: "au", rank: null, age: 31, height: 71 },
-  { name: "Matt Schnell", division: "FLW", country: "United States", iso: "us", rank: 12, age: 36, height: 68 },
-  { name: "Alexander Volkanovski", division: "FW", country: "Australia", iso: "au", rank: 1, age: 37, height: 66 },
-  { name: "Tom Aspinall", division: "HW", country: "England", iso: "gb-eng", rank: 1, age: 32, height: 77 },
-  { name: "Max Holloway", division: "FW", country: "United States", iso: "us", rank: 2, age: 34, height: 71 },
-  { name: "Dricus Du Plessis", division: "MW", country: "South Africa", iso: "za", rank: 1, age: 32, height: 73 },
-];
-
 const heightLabel = (inches) => `${Math.floor(inches / 12)}'${inches % 12}"`;
-const rankLabel = (rank) => (rank == null ? "NR" : `#${rank}`);
+const rankLabel = (rank) => (rank == null ? "NR" : rank === 0 ? "C" : `#${rank}`);
+
+function FighterAvatar({ fighter }) {
+  const fallback = assetUrl("assets/fighter-avatar.png");
+  return (
+    <img
+      src={fighter.image || fallback}
+      alt=""
+      referrerPolicy="no-referrer"
+      onError={(event) => {
+        event.currentTarget.onerror = null;
+        event.currentTarget.src = fallback;
+      }}
+    />
+  );
+}
 
 // Numeric arrows point from the guessed value toward the answer.
 function direction(guess, answer) {
@@ -57,12 +66,20 @@ function rankDirection(guess, answer) {
   return answer < guess ? "↑" : "↓";
 }
 
+function divisionDirection(guess, answer) {
+  const guessMeta = divisionMeta[guess];
+  const answerMeta = divisionMeta[answer];
+  if (!guessMeta || !answerMeta || guessMeta.track !== answerMeta.track) return "";
+  return direction(guessMeta.order, answerMeta.order);
+}
+
 function resultFor(type, guess, target) {
   if (type === "country") return guess.country === target.country ? "correct" : "miss";
   if (type === "division") {
-    const a = divisions.indexOf(guess.division);
-    const b = divisions.indexOf(target.division);
-    return a === b ? "correct" : Math.abs(a - b) === 1 ? "close" : "miss";
+    const a = divisionMeta[guess.division];
+    const b = divisionMeta[target.division];
+    if (!a || !b || a.track !== b.track) return "miss";
+    return a.order === b.order ? "correct" : Math.abs(a.order - b.order) === 1 ? "close" : "miss";
   }
   const a = guess[type];
   const b = target[type];
@@ -74,7 +91,7 @@ function resultFor(type, guess, target) {
 
 function GuessCard({ fighter, target, isWinner }) {
   const cells = [
-    { key: "division", label: fighter.division, arrow: direction(divisions.indexOf(fighter.division), divisions.indexOf(target.division)) },
+    { key: "division", label: fighter.division, arrow: divisionDirection(fighter.division, target.division) },
     { key: "country", label: fighter.country, iso: fighter.iso },
     { key: "rank", label: rankLabel(fighter.rank), arrow: rankDirection(fighter.rank, target.rank) },
     { key: "age", label: fighter.age, arrow: direction(fighter.age, target.age) },
@@ -84,7 +101,7 @@ function GuessCard({ fighter, target, isWinner }) {
   return (
     <article className={`guess-card ${isWinner ? "winner" : ""}`}>
       <div className="fighter-name">
-        <img src={assetUrl("assets/fighter-avatar.png")} alt="" />
+        <FighterAvatar fighter={fighter} />
         <strong>{fighter.name}</strong>
         {isWinner && <CheckCircle className="winner-check" weight="fill" />}
       </div>
@@ -202,7 +219,7 @@ function App() {
     <div className="app-shell">
       <header className="topbar">
         <button className="icon-button back" aria-label="Back"><ArrowLeft /></button>
-        <a className="brand" href="/" aria-label="Fightle home">
+        <a className="brand" href={import.meta.env.BASE_URL} aria-label="Fightle home">
           <span className="brand-mark"><i /><i /><i /><i /></span>
           <span>FIGHTLE</span>
         </a>
@@ -239,7 +256,7 @@ function App() {
               <div className="suggestions">
                 {suggestions.map((fighter) => (
                   <button onMouseDown={(e) => e.preventDefault()} onClick={() => submitGuess(fighter)} key={fighter.name}>
-                    <img src={assetUrl("assets/fighter-avatar.png")} alt="" />
+                    <FighterAvatar fighter={fighter} />
                     <span><strong>{fighter.name}</strong><small>{fighter.division} · {fighter.country}</small></span>
                   </button>
                 ))}
