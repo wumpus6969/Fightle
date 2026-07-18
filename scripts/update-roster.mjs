@@ -49,14 +49,42 @@ const clean = (value) => value?.replace(/\[[^\]]*]/g, "").replace(/\s+/g, " ").t
 const normalizeName = (value) => clean(value)
   .normalize("NFD")
   .replace(/\p{Diacritic}/gu, "")
+  .replace(/ł/gi, "l")
   .replace(/[^a-z0-9]/gi, "")
   .toLowerCase();
 const slugifyName = (value) => clean(value)
   .normalize("NFD")
   .replace(/\p{Diacritic}/gu, "")
+  .replace(/ł/gi, "l")
   .replace(/[^a-z0-9]+/gi, "-")
   .replace(/^-|-$/g, "")
   .toLowerCase();
+
+// The current-roster source and UFC use different display names for these athletes.
+// Keeping the aliases here lets future roster refreshes continue finding their photos.
+const profileAliases = new Map([
+  ["abusupiyanmagomedov", { page: "/athlete/abus-magomedov" }],
+  ["alatengheili", { page: "/athlete/heili-alateng" }],
+  ["aoriqileng", { page: "/athlete/aoriqileng" }],
+  ["beatrizmesquita", { page: "/athlete/bia-mesquita" }],
+  ["brunogustavodasilva", { page: "/athlete/bruno-silva" }],
+  ["carlosdiegoferreira", { page: "/athlete/diego-ferreira" }],
+  ["choidooho", { page: "/athlete/dooho-choi" }],
+  ["gabrielgreen", { page: "/athlete/gabriel-green" }],
+  ["janblachowicz", { page: "/athlete/jan-blachowicz" }],
+  ["michaelpage", { page: "/athlete/michael-page" }],
+  ["michaloleksiejczuk", { page: "/athlete/michal-oleksiejczuk" }],
+  ["montserratruiz", { page: "/athlete/montserrat-conejo" }],
+  ["parkhyunsung", { page: "/athlete/hyunsung-park" }],
+  ["parkjunyong", { page: "/athlete/jun-yong-park" }],
+  ["patriciopitbull", {
+    page: "https://jp.ufc.com/athlete/patricio-pitbull-freire",
+    profile: "/athlete/patricio-pitbull-freire",
+  }],
+  ["robertruchala", { page: "/athlete/robert-ruchala" }],
+  ["ronaldorodriguez", { page: "/athlete/luis-rodriguez" }],
+  ["sharabutdinmagomedov", { page: "/athlete/shara-magomedov" }],
+]);
 
 async function fetchText(url, attempts = 3) {
   let lastError;
@@ -172,10 +200,25 @@ async function scrapeRankings() {
 }
 
 async function searchOfficialProfile(fighter, rankings) {
-  const html = await fetchText(`${UFC}/athletes/all?search=${encodeURIComponent(fighter.name)}`);
-  const $ = cheerio.load(html);
   const wanted = normalizeName(fighter.name);
   let selected = null;
+  const alias = profileAliases.get(wanted);
+
+  if (alias) {
+    const aliasUrl = absoluteUrl(alias.page);
+    const aliasHtml = await fetchText(aliasUrl);
+    const aliasPage = cheerio.load(aliasHtml);
+    selected = {
+      profile: alias.profile || new URL(aliasUrl).pathname,
+      image: absoluteUrl(
+        aliasPage(".hero-profile__image").first().attr("src") ||
+        aliasPage('meta[property="og:image"]').attr("content"),
+      ),
+    };
+  }
+
+  const html = selected ? "" : await fetchText(`${UFC}/athletes/all?search=${encodeURIComponent(fighter.name)}`);
+  const $ = cheerio.load(html);
 
   $(".c-listing-athlete-flipcard").each((_, cardElement) => {
     const card = $(cardElement);

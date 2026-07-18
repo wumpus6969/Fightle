@@ -18,8 +18,8 @@
     "age": 35,
     "height": 74,
     "rank": null,
-    "image": "",
-    "profile": ""
+    "image": "https://ufc.com/images/styles/athlete_bio_full_body/s3/2026-06/MAGOMEDOV_ABUS_L_06-27.png?itok=SLmzXjWp",
+    "profile": "https://www.ufc.com/athlete/abus-magomedov"
   },
   {
     "name": "Adrian Yañez",
@@ -62,8 +62,8 @@
     "age": 34,
     "height": 66,
     "rank": null,
-    "image": "",
-    "profile": ""
+    "image": "https://ufc.com/images/styles/athlete_bio_full_body/s3/2025-04/ALATENGHEILI_L_05-18.png?itok=tO6xLHed",
+    "profile": "https://www.ufc.com/athlete/heili-alateng"
   },
   {
     "name": "Aleksandar Rakić",
@@ -293,8 +293,8 @@
     "age": 33,
     "height": 67,
     "rank": null,
-    "image": "",
-    "profile": ""
+    "image": "https://ufc.com/images/styles/athlete_bio_full_body/s3/2026-05/AORIQILENG_L_05-30.png?itok=I45de0t0",
+    "profile": "https://www.ufc.com/athlete/aoriqileng"
   },
   {
     "name": "Arman Tsarukyan",
@@ -380,9 +380,9 @@
     "iso": "br",
     "age": 35,
     "height": 64,
-    "rank": null,
-    "image": "",
-    "profile": ""
+    "rank": 12,
+    "image": "https://ufc.com/images/styles/athlete_bio_full_body/s3/2025-10/MESQUITA_BIA_L_10-11.png?itok=W3FwWXNQ",
+    "profile": "https://www.ufc.com/athlete/bia-mesquita"
   },
   {
     "name": "Bekzat Almakhan",
@@ -546,8 +546,8 @@
     "age": 36,
     "height": 64,
     "rank": null,
-    "image": "",
-    "profile": ""
+    "image": "https://ufc.com/images/styles/athlete_bio_full_body/s3/2026-06/SILVA_BRUNO_L_06-06.png?itok=l_D2GW69",
+    "profile": "https://www.ufc.com/athlete/bruno-silva"
   },
   {
     "name": "Bryce Mitchell",
@@ -601,8 +601,8 @@
     "age": 41,
     "height": 68,
     "rank": null,
-    "image": "",
-    "profile": ""
+    "image": "https://ufc.com/images/styles/athlete_bio_full_body/s3/2025-01/FERREIRA_DIEGO_L_01-18.png?itok=XyVAypZ8",
+    "profile": "https://www.ufc.com/athlete/diego-ferreira"
   },
   {
     "name": "Carlos Prates",
@@ -722,8 +722,8 @@
     "age": 35,
     "height": 70,
     "rank": null,
-    "image": "",
-    "profile": ""
+    "image": "https://ufc.com/images/styles/athlete_bio_full_body/s3/2026-05/CHOI_DOOHO_L_05-16.png?itok=pN8VMyeW",
+    "profile": "https://www.ufc.com/athlete/dooho-choi"
   },
   {
     "name": "Chris Curtis",
@@ -1250,8 +1250,8 @@
     "age": 33,
     "height": 70,
     "rank": null,
-    "image": "",
-    "profile": ""
+    "image": "https://ufc.com/images/styles/athlete_bio_full_body/s3/2025-05/GREEN_GABE_L_05-17.png?itok=5Lo_4fxI",
+    "profile": "https://www.ufc.com/athlete/gabriel-green"
   },
   {
     "name": "Geoff Neal",
@@ -1535,9 +1535,9 @@
     "iso": "pl",
     "age": 43,
     "height": 74,
-    "rank": null,
-    "image": "",
-    "profile": ""
+    "rank": 4,
+    "image": "https://ufc.com/images/styles/athlete_bio_full_body/s3/2025-12/BLACHOWICZ_JAN_L_12-06.png?itok=brwfKlEP",
+    "profile": "https://www.ufc.com/athlete/jan-blachowicz"
   },
   {
     "name": "Jared Cannonier",
@@ -2514,9 +2514,9 @@
     "iso": "gb-eng",
     "age": 39,
     "height": 75,
-    "rank": null,
-    "image": "",
-    "profile": ""
+    "rank": 13,
+    "image": "https://ufc.com/images/styles/athlete_bio_full_body/s3/2026-03/PAGE_MICHAEL_L_03-21.png?itok=UOjuF--7",
+    "profile": "https://www.ufc.com/athlete/michael-page"
   },
   {
     "name": "Michał Oleksiejczuk",
@@ -2526,8 +2526,8 @@
     "age": 31,
     "height": 72,
     "rank": null,
-    "image": "",
-    "profile": ""
+    "image": "https://ufc.com/images/styles/athlete_bio_full_body/s3/2026-02/OLEKSIEJCZUK_MICHAL_L_02-07.png?itok=hDOVJtgb",
+    "profile": "https://www.ufc.com/athlete/michal-oleksiejczuk"
   },
   {
     "name": "Mick Parkin",
@@ -2647,8 +2647,8 @@
     "age": 33,
     "height": 60,
     "rank": null,
-    "image": "",
-    "profile": ""
+    "image": "https://ufc.com/images/styles/athlete_bio_full_body/s3/2025-10/RUIZ_MONTSERRAT_CONEJO_L_11-04.png?itok=3I-J1aEM",
+    "profile": "https://www.ufc.com/athlete/montserrat-conejo"
   },
   {
     "name": "Movsar Evloev",
@@ -2889,8 +2889,8 @@
     "age": 30,
     "height": 67,
     "rank": null,
-    "image": "",
-    "profile": ""
+    "image": "https://ufc.com/images/styles/athlete_bio_full_body/s3/2025-05/PARK_HYUNSUNG_L_05-17.png?itok=B7E07bcL",
+    "profile": "https://www.ufc.com/athlete/hyunsung-park"
   },
   {
     "name": "Park Jun-yong",
@@ -2900,8 +2900,8 @@
     "age": 35,
     "height": 72,
     "rank": null,
-    "image": "",
-    "profile": ""
+    "image": "https://ufc.com/images/styles/athlete_bio_full_body/s3/2023-12/PARK_JUNYONG_L_12-09.png?itok=LeEvSHc5",
+    "profile": "https://www.ufc.com/athlete/jun-yong-park"
   },
   {
     "name": "Pat Sabatini",
@@ -2922,8 +2922,8 @@
     "age": 39,
     "height": 66,
     "rank": null,
-    "image": "",
-    "profile": ""
+    "image": "https://ufc.com/images/styles/athlete_bio_full_body/s3/2026-04/PITBULL_PATRICIO_L_04-11.png?itok=9q7-vcVx",
+    "profile": "https://www.ufc.com/athlete/patricio-pitbull-freire"
   },
   {
     "name": "Paulo Costa",
@@ -3186,8 +3186,8 @@
     "age": 28,
     "height": 70,
     "rank": null,
-    "image": "",
-    "profile": ""
+    "image": "https://ufc.com/images/styles/athlete_bio_full_body/s3/2026-04/RUCHALA_ROBERT_R_04-04.png?itok=dyMpcjir",
+    "profile": "https://www.ufc.com/athlete/robert-ruchala"
   },
   {
     "name": "Robert Whittaker",
@@ -3230,8 +3230,8 @@
     "age": 27,
     "height": 66,
     "rank": null,
-    "image": "",
-    "profile": ""
+    "image": "https://ufc.com/images/styles/athlete_bio_full_body/s3/2025-03/RODRIGUEZ_RONALDO_L_03-29.png?itok=NvFGBWAi",
+    "profile": "https://www.ufc.com/athlete/luis-rodriguez"
   },
   {
     "name": "Rong Zhu",
@@ -3384,8 +3384,8 @@
     "age": 32,
     "height": 74,
     "rank": null,
-    "image": "",
-    "profile": ""
+    "image": "https://ufc.com/images/styles/athlete_bio_full_body/s3/2026-06/MAGOMEDOV_SHARA_L_06-27.png?itok=_iIAbX5t",
+    "profile": "https://www.ufc.com/athlete/shara-magomedov"
   },
   {
     "name": "Shavkat Rakhmonov",
