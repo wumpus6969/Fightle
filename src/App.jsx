@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
+  ArrowDown,
   ArrowLeft,
+  ArrowUp,
   Barbell,
   ChartBar,
   CheckCircle,
@@ -33,6 +35,7 @@ const assetUrl = (path) => `${import.meta.env.BASE_URL}${path}`;
 
 const heightLabel = (inches) => `${Math.floor(inches / 12)}'${inches % 12}"`;
 const rankLabel = (rank) => (rank == null ? "NR" : rank === 0 ? "C" : `#${rank}`);
+const divisionLabel = (division) => (division.startsWith("W") ? `W-${division.slice(1)}` : division);
 const rankedFighterIndexes = fighters
   .map((fighter, index) => ({ fighter, index }))
   .filter(({ fighter }) => fighter.rank != null && fighter.rank <= 15)
@@ -95,20 +98,21 @@ function resultFor(type, guess, target) {
   if (type === "division") {
     const a = divisionMeta[guess.division];
     const b = divisionMeta[target.division];
-    if (!a || !b || a.track !== b.track) return "miss";
+    if (!a || !b) return "miss";
+    if (a.track !== b.track) return "gender";
     return a.order === b.order ? "correct" : Math.abs(a.order - b.order) === 1 ? "close" : "miss";
   }
   const a = guess[type];
   const b = target[type];
   if (a === b) return "correct";
   if (a == null || b == null) return "miss";
-  const threshold = type === "rank" ? 5 : type === "height" ? 2 : 3;
+  const threshold = type === "rank" ? 2 : type === "height" ? 2 : 3;
   return Math.abs(a - b) <= threshold ? "close" : "miss";
 }
 
 function GuessCard({ fighter, target, isWinner }) {
   const cells = [
-    { key: "division", label: fighter.division, arrow: divisionDirection(fighter.division, target.division) },
+    { key: "division", label: divisionLabel(fighter.division), arrow: divisionDirection(fighter.division, target.division) },
     { key: "country", label: fighter.country, iso: fighter.iso },
     { key: "rank", label: rankLabel(fighter.rank), arrow: rankDirection(fighter.rank, target.rank) },
     { key: "age", label: fighter.age, arrow: direction(fighter.age, target.age) },
@@ -138,17 +142,23 @@ function GuessCard({ fighter, target, isWinner }) {
 function Modal({ type, onClose, stats }) {
   return (
     <div className="modal-backdrop" onMouseDown={onClose}>
-      <section className="modal" onMouseDown={(e) => e.stopPropagation()}>
+      <section className={`modal ${type === "help" ? "help-modal" : ""}`} onMouseDown={(e) => e.stopPropagation()}>
         <button className="close-button" onClick={onClose} aria-label="Close"><X /></button>
         {type === "help" ? (
           <>
-            <Question size={34} weight="bold" />
             <h2>How to play</h2>
-            <p>Guess the mystery fighter in six tries. Green is an exact match, gold means you’re close, and arrows point toward the answer.</p>
-            <div className="legend">
-              <span className="correct">Exact match</span>
-              <span className="close">Close</span>
-              <span className="miss">Keep looking</span>
+            <p>Guess the mystery UFC fighter in 6 tries.</p>
+            <p>After each guess, every tile shows how your pick compares:</p>
+            <div className="help-legend">
+              <div><span className="help-swatch correct" /><p><strong>Green</strong> — exact match</p></div>
+              <div><span className="help-swatch close" /><p><strong>Yellow</strong> — close: within 2 ranks, 3 years (age), 2 inches (height), or one weight class away</p></div>
+              <div><span className="help-swatch miss" /><p><strong>Gray</strong> — not close</p></div>
+              <div><span className="help-swatch gender" /><p><strong>Purple</strong> — Division: different gender (men’s vs women’s)</p></div>
+            </div>
+            <p>Arrows point toward the answer:</p>
+            <div className="arrow-help">
+              <div><ArrowUp weight="bold" /><p>Answer is higher — heavier division, ranked higher (closer to #1), older, taller</p></div>
+              <div><ArrowDown weight="bold" /><p>Answer is lower</p></div>
             </div>
           </>
         ) : (
@@ -222,7 +232,7 @@ function App() {
   async function shareResult() {
     const blocks = guesses.map((fighter) =>
       ["division", "country", "rank", "age", "height"]
-        .map((key) => ({ correct: "🟩", close: "🟨", miss: "⬛" }[resultFor(key, fighter, target)]))
+        .map((key) => ({ correct: "🟩", close: "🟨", gender: "🟪", miss: "⬛" }[resultFor(key, fighter, target)]))
         .join("")
     ).join("\n");
     const text = `FIGHTLE ${won ? `${guesses.length}/6` : "X/6"}\n${blocks}`;
@@ -272,7 +282,7 @@ function App() {
                 {suggestions.map((fighter) => (
                   <button onMouseDown={(e) => e.preventDefault()} onClick={() => submitGuess(fighter)} key={fighter.name}>
                     <FighterAvatar fighter={fighter} />
-                    <span><strong>{fighter.name}</strong><small>{fighter.division} · {fighter.country}</small></span>
+                    <span><strong>{fighter.name}</strong><small>{divisionLabel(fighter.division)} · {fighter.country}</small></span>
                   </button>
                 ))}
               </div>

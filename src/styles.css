@@ -12,6 +12,8 @@
   --green-line: #168446;
   --gold: #4a3615;
   --gold-line: #96640c;
+  --purple: #34204a;
+  --purple-line: #7336a7;
 }
 
 * { box-sizing: border-box; }
@@ -261,6 +263,10 @@ button { color: inherit; }
   background: var(--gold);
   border-color: var(--gold-line);
 }
+.attribute.gender {
+  background: var(--purple);
+  border-color: var(--purple-line);
+}
 .attribute .flag { width: 21px; height: 14px; object-fit: cover; margin: 0 calc(50% - 11px); box-shadow: 0 0 0 1px rgba(255,255,255,.08); }
 .attribute .arrow { color: #9ba0a4; font-size: 21px; line-height: .9; }
 .attribute.close .arrow { color: #f2a900; }
@@ -344,6 +350,36 @@ footer {
 .modal > svg { color: var(--red); }
 .modal h2 { font-size: 29px; margin: 15px 0 8px; }
 .modal p { color: #a2a4a4; line-height: 1.55; margin: 0; }
+.help-modal h2 {
+  margin: 0 0 28px;
+  font-family: Impact, "Arial Narrow", sans-serif;
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.help-modal > p + p { margin-top: 20px; }
+.help-legend { display: grid; gap: 10px; margin: 10px 0 20px; }
+.help-legend > div, .arrow-help > div {
+  display: grid;
+  grid-template-columns: 25px 1fr;
+  align-items: start;
+  gap: 12px;
+}
+.help-legend p, .arrow-help p { line-height: 1.45; }
+.help-legend strong { color: white; }
+.help-swatch {
+  width: 25px;
+  height: 25px;
+  border: 1px solid #303232;
+  border-radius: 6px;
+  background: #101111;
+}
+.help-swatch.correct { background: var(--green); border-color: var(--green-line); }
+.help-swatch.close { background: var(--gold); border-color: var(--gold-line); }
+.help-swatch.gender { background: var(--purple); border-color: var(--purple-line); }
+.arrow-help { display: grid; gap: 12px; margin-top: 10px; }
+.arrow-help svg { width: 25px; height: 25px; color: white; padding: 2px; }
 .close-button {
   position: absolute;
   right: 18px;
@@ -420,6 +456,19 @@ footer {
   .share-button, .next-button { height: 34px; width: 102px; padding: 0 8px; justify-content: center; font-size: 12px; border-radius: 9px; }
   .share-button svg { width: 17px; height: 17px; }
   .empty-state { padding-top: 75px; }
+  .help-modal { padding: 22px 24px; }
+  .help-modal h2 { margin-bottom: 24px; font-size: 20px; }
+  .help-modal > p { font-size: 13px; line-height: 1.4; }
+  .help-modal > p + p { margin-top: 18px; }
+  .help-legend { gap: 7px; margin: 8px 0 17px; }
+  .help-legend > div, .arrow-help > div {
+    grid-template-columns: 20px 1fr;
+    gap: 9px;
+  }
+  .help-legend p, .arrow-help p { font-size: 13px; line-height: 1.4; }
+  .help-swatch { width: 20px; height: 20px; border-radius: 5px; }
+  .arrow-help { gap: 8px; margin-top: 8px; }
+  .arrow-help svg { width: 20px; height: 20px; padding: 1px; }
 }
 
 @media (max-width: 380px) {
