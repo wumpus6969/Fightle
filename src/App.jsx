@@ -33,6 +33,23 @@ const assetUrl = (path) => `${import.meta.env.BASE_URL}${path}`;
 
 const heightLabel = (inches) => `${Math.floor(inches / 12)}'${inches % 12}"`;
 const rankLabel = (rank) => (rank == null ? "NR" : rank === 0 ? "C" : `#${rank}`);
+const rankedFighterIndexes = fighters
+  .map((fighter, index) => ({ fighter, index }))
+  .filter(({ fighter }) => fighter.rank != null && fighter.rank <= 15)
+  .map(({ index }) => index);
+const unrankedFighterIndexes = fighters
+  .map((fighter, index) => ({ fighter, index }))
+  .filter(({ fighter }) => fighter.rank == null || fighter.rank > 15)
+  .map(({ index }) => index);
+
+function randomTargetIndex(excludeIndex = -1) {
+  const preferRanked = Math.random() < 0.8;
+  const preferredPool = preferRanked ? rankedFighterIndexes : unrankedFighterIndexes;
+  const available = preferredPool.filter((index) => index !== excludeIndex);
+  const fallback = fighters.map((_, index) => index).filter((index) => index !== excludeIndex);
+  const pool = available.length > 0 ? available : fallback;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
 
 function FighterAvatar({ fighter }) {
   const fallback = assetUrl("assets/fighter-avatar.png");
@@ -151,7 +168,7 @@ function Modal({ type, onClose, stats }) {
 }
 
 function App() {
-  const [targetIndex, setTargetIndex] = useState(() => Math.floor(Math.random() * fighters.length));
+  const [targetIndex, setTargetIndex] = useState(() => randomTargetIndex());
   const [guesses, setGuesses] = useState([]);
   const [query, setQuery] = useState("");
   const [focused, setFocused] = useState(false);
@@ -194,9 +211,7 @@ function App() {
   }
 
   function newFighter() {
-    let next = targetIndex;
-    while (next === targetIndex) next = Math.floor(Math.random() * fighters.length);
-    setTargetIndex(next);
+    setTargetIndex(randomTargetIndex(targetIndex));
     setGuesses([]);
     setQuery("");
     setFocused(false);
